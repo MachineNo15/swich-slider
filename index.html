@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Switch Slider</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/spinner.css">
+<!--===============================================================================================-->
+	
+	<style>
+		html{
+			cursor:none;
+		}
+		
+		body{
+			overflow:hidden;
+		}
+		
+		.slider{
+			position: absolute;
+			background: #57b846;
+			height: 100vh;
+			width: 45%;
+			top: 0;
+			right: 0;
+			display:table;
+			z-index:10;
+		}
+		
+		.slider-min{
+			position: absolute;
+			background: #e8f0fe;
+			height: 100vh;
+			width: 4%;
+			top: 0;
+			left: 0;
+			display: table;
+			z-index: -10;
+		}
+		
+		@keyframes slide-back{
+			
+			0%{
+				transform:translatex(-123%);
+				width:46%;
+			}
+			
+			50%{
+				width:60%;
+			}
+			
+			100%{
+				transform:translatex(0%);
+				width:45%;
+			}
+		}
+		
+		@keyframes slide{
+			
+			0%{
+				
+			}
+			
+			50%{
+				width:60%;
+			}
+			
+			100%{
+				transform:translatex(-123%);
+				width:46%;
+			}			
+		}
+		
+		@keyframes slider-min{
+			
+			50%{
+				width:60%;
+				background:#57b846;
+			}
+
+			80%{
+				background:cyan;
+			}
+			
+			100%{
+				transform:translatex(82rem);
+				width:4%;
+				background: #e8f0fe;
+			}			
+		}
+
+		@keyframes slider-min-back{
+			
+			0%{
+				transform:translatex(82rem);
+			}
+			
+			50%{
+				width:60%;
+				background:#57b846;
+			}
+
+			80%{
+				background:cyan;
+			}
+			
+			100%{
+				transform:translatex(0);
+				width:4%;
+				background: #e8f0fe;
+			}			
+		}
+
+	
+		.cntrths{
+		    display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+		}
+		
+		.social{
+			border: 2px solid black;
+			border-radius: 85px;
+		}
+		
+		.font-size{
+			font-size: 1rem;
+		}
+		
+		.form-box{
+			margin-top:10rem;
+		}
+		
+		@keyframes form-slide-back{
+			
+			0%{
+				transform:translatex(50%);				
+			}
+			40%{
+				transform:translatex(55%);
+			}
+			100%{
+				transform:translatex(0%);
+			}
+			
+		}
+		
+		@keyframes form-slide{
+
+			40%{
+				transform:translatex(-5%);
+			}
+			
+			100%{
+				transform:translatex(50%);
+			}
+			
+		}
+		
+		@keyframes form-slide-each-back{
+
+			40%{
+				transform:translatex(8%);
+			}
+			
+			80%{
+				transform:translatex(-30%);
+			}
+			
+			100%{
+				transform:translatex(0);
+			}
+		}
+		
+		@keyframes form-slide-each{
+
+			40%{
+				transform:translatex(-8%);
+			}
+			
+			80%{
+				transform:translatex(30%);
+			}
+			
+			100%{
+				transform:translatex(0);				
+			}
+		}
+		
+		@keyframes rot180-arrow{
+			
+			100%{
+				transform:rotate(180deg);
+			}			
+		}
+		
+		@keyframes rot90-arrow{
+			0%{
+				transform:rotate(180deg);				
+			}
+			
+			100%{
+				transform:rotate(0deg);
+			}
+		}
+			
+		@keyframes shadow-pulse
+		{
+			 0% {
+				  box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+			 }
+			 100% {
+				  box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+			 }
+		}
+
+		.cursor {
+		  position: fixed;
+		  left: 0;
+		  top: 0;
+		  pointer-events: none;
+		}
+		.cursor--small {
+		  width: 10px;
+		  height: 10px;
+		  left: -2.5px;
+		  top: -2.5px;
+		  border-radius: 50%;
+		  z-index: 11000;
+		  background: black;
+		  animation:shadow-pulse 1s ease-in-out infinite;
+		}
+		
+		.cursor--canvas {
+		  width: 100vw;
+		  height: 100vh;
+		  z-index: 12000;
+		}
+	
+		.cntrths{
+			animation:shadow-pulse 1.4s ease-in-out infinite;
+		}
+		
+		.arrow:hover{
+			animation:shadow-pulse 1s ease-in-out infinite;
+		}
+		
+		.arrow{
+			font-size: 7rem;
+			color: white;
+			border-radius: 117px;
+			width: 114px;
+		}
+
+		.hepler-text{
+			color: white;
+			font-size: 2rem;
+			font-weight: 700;
+			letter-spacing: 2px;
+			padding-top: 10px;
+		}
+		
+	</style>
+	
+	
+</head>
+
+
+<body>
+
+	<div class="cursor cursor--small"></div>
+	<canvas class="cursor cursor--canvas" resize></canvas>
+	
+	<div class="limiter">
+		<div class="container form-box">
+			<div class="mt-5 pl-5 col-md-5">
+			
+				<form class="validate-form">
+					<span class="login100-form-title">
+						SIGNIN
+					</span>
+					
+					<div class="row ml-auto mr-auto mb-3 mt-3" id="form-social">
+						<div class="col text-center social font-size mr-3"><li class="fa fa-facebook"></li></div>
+						<div class="col text-center social font-size mr-3"><li class="fa fa-google"></li></div>
+						<div class="col text-center social font-size mr-3"><li class="fa fa-twitter"></li></div>
+						<div class="col text-center social font-size mr-3"><li class="fa fa-instagram"></li></div>
+					</div>
+					
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz" id="form-input">
+						<input class="input100" type="text" name="email" placeholder="Email">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<!--						
+								_  _   __  __            _     _            _   _      __ _____ _ 			
+							  _| || |_|  \/  |          | |   (_)          | \ | |    /_ | ____| |
+							 |_  __  _| \  / | __ _  ___| |__  _ _ __   ___|  \| | ___ | | |__ | |
+							  _| || |_| |\/| |/ _` |/ __| '_ \| | '_ \ / _ \ . ` |/ _ \| |___ \| |
+							 |_  __  _| |  | | (_| | (__| | | | | | | |  __/ |\  | (_) | |___) |_|
+							   |_||_| |_|  |_|\__,_|\___|_| |_|_|_| |_|\___|_| \_|\___/|_|____/(_)
+					-->
+
+					
+					<div class="wrap-input100 validate-input" data-validate = "Password is required" id="pass-a">
+						<input class="input100" type="password" name="pass" placeholder="Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input conpass" data-validate = "Password is required" id="pass-b">
+						<input class="input100" type="password" name="pass" placeholder="Confirm Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+					
+					<div class="container-login100-form-btn" id="form-submit">
+						<button class="login100-form-btn">
+							SIGNIN
+						</button>
+					</div>
+
+					<div class="text-center p-t-12">
+						<span class="txt1">
+							Forgot
+						</span>
+						<a class="txt2" href="#">
+							Username / Password?
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="slider">
+		
+			<div class="col-md-5 ml-auto mr-auto cntrths btn">
+				<li class="fa fa-arrow-circle-left arrow grx" data-type="1"></li>
+				<h3 class="hepler-text">SIGNUP</h3>
+			</div>
+			
+		</div>
+
+		<div class="slider-min">
+		
+		</div>
+		
+	</div>
+	
+	<div class="spinner-block">
+		<div class="spinner" id="spinner">
+			<div class="dot1"></div>
+			<div class="dot2"></div>
+		</div>
+	</div>
+		
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.0/paper-core.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+	
+<!--===============================================================================================-->
+	<script >
+		
+		
+		window.onload = function(){ 
+			$('.spinner-block').hide();
+		}		
+		
+		$(document).ready(function(){
+			$('.conpass').hide();
+		});
+		
+		
+		$('.arrow').click(function(){
+			
+			if($(this).attr('data-type') == '1'){
+				$(this).attr('data-type','0')
+				$('.slider').css('animation',"2s ease-in-out 0s 1 slide forwards");
+				$(this).css('animation',"2s ease-in-out 0s 1 rot180-arrow forwards");
+				$('.form-box').css('animation',"2s ease-in-out 0s 1 form-slide forwards");
+				
+				$('.slider-min').css('animation',"2s ease-in-out 0s 1 slider-min forwards");
+				
+				
+				
+				$('#form-input').css('animation','2s ease-in-out 0s 1 form-slide-each');
+				$('#pass-a').css('animation','2.2s ease-in-out 0s 1 form-slide-each');
+				$('#pass-a').css('animation','2.3s ease-in-out 0s 1 form-slide-each');
+				$('#form-social').css('animation','1.8s ease-in-out 0s 1 form-slide-each');
+				$('#form-submit').css('animation','1.4s ease-in-out 0s 1 form-slide-each');
+
+				
+				setTimeout(function(){
+					$('.hepler-text').text('SIGNIN');
+					$('.login100-form-title').text('SIGNUP');
+					$('.login100-form-btn').text('SIGNUP');
+					$('.conpass').show();
+				},1000);
+
+			}else{
+				$(this).attr('data-type','1')				
+				$('.slider').css('animation',"1.6s ease-in-out 0s 1 slide-back forwards");
+				$(this).css('animation',"2s ease-in-out 0s 1 rot90-arrow forwards");
+				$('.form-box').css('animation',"2s ease-in-out 0s 1 form-slide-back forwards");
+
+				$('.slider-min').css('animation',"2s ease-in-out 0s 1 slider-min-back forwards");
+
+				$('#form-input').css('animation','2s ease-in-out 0s 1 form-slide-each-back');
+				$('#pass-a').css('animation','2.2s ease-in-out 0s 1 form-slide-each-back');
+				$('#pass-a').css('animation','2.3s ease-in-out 0s 1 form-slide-each-back');
+				$('#form-social').css('animation','1.8s ease-in-out 0s 1 form-slide-each-back');
+				$('#form-submit').css('animation','1.4s ease-in-out 0s 1 form-slide-each-back');
+				
+				setTimeout(function(){
+					$('.login100-form-title').text('SIGNIN');
+					$('.login100-form-btn').text('SIGNIN');
+					$('.hepler-text').text('SIGNUP');
+					$('.conpass').hide();
+				},1000);
+				
+			}
+			
+		});
+		
+		// set the starting position of the cursor outside of the screen
+		let clientX = -100;
+		let clientY = -100;
+		const innerCursor = document.querySelector(".cursor--small");
+
+		const initCursor = () => {
+		  // add listener to track the current mouse position
+		  document.addEventListener("mousemove", e => {
+			clientX = e.clientX-5;
+			clientY = e.clientY-5;
+		  });
+		  
+		  // transform the innerCursor to the current mouse position
+		  // use requestAnimationFrame() for smooth performance
+		  const render = () => {
+			innerCursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
+			// if you are already using TweenMax in your project, you might as well
+			// use TweenMax.set() instead
+			// TweenMax.set(innerCursor, {
+			//   x: clientX,
+			//   y: clientY
+			// });
+			
+			requestAnimationFrame(render);
+		  };
+		  requestAnimationFrame(render);
+		};
+
+		initCursor();
+		
+		let lastX = 0;
+		let lastY = 0;
+		let isStuck = false;
+		let showCursor = false;
+		let group, stuckX, stuckY, fillOuterCursor;
+
+		const initCanvas = () => {
+		  const canvas = document.querySelector(".cursor--canvas");
+		  const shapeBounds = {
+			width: 75,
+			height: 75
+		  };
+		  paper.setup(canvas);
+		  const strokeColor = "rgba(0, 0, 0, 1)";
+		  const strokeWidth = 1.2;
+		  const segments = 8;
+		  const radius = 15;
+		  
+		  // we'll need these later for the noisy circle
+		  const noiseScale = 150; // speed
+		  const noiseRange = 10; // range of distortion
+		  let isNoisy = true; // state
+		  
+		  // the base shape for the noisy circle
+		  const polygon = new paper.Path.RegularPolygon(
+			new paper.Point(0, 0),
+			segments,
+			radius
+		  );
+		  polygon.strokeColor = strokeColor;
+		  polygon.strokeWidth = strokeWidth;
+		  polygon.smooth();
+		  group = new paper.Group([polygon,polygon]);
+		  group.applyMatrix = true;
+		  
+		  const noiseObjects = polygon.segments.map(() => new SimplexNoise());
+		  let bigCoordinates = [];
+		  
+		  // function for linear interpolation of values
+		  const lerp = (a, b, n) => {
+			return (1 - n) * a + n * b;
+		  };
+		  
+		  // function to map a value from one range to another range
+		  const map = (value, in_min, in_max, out_min, out_max) => {
+			return (
+			  ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+			);
+		  };
+		  
+		  // the draw loop of Paper.js 
+		  // (60fps with requestAnimationFrame under the hood)
+		  paper.view.onFrame = event => {
+			// using linear interpolation, the circle will move 0.2 (20%)
+			// of the distance between its current position and the mouse
+			// coordinates per Frame
+			lastX = lerp(lastX, clientX, 0.2);
+			lastY = lerp(lastY, clientY, 0.2);
+			group.position = new paper.Point(lastX, lastY);
+		  }
+		}
+
+		initCanvas();
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>
+
+
+	<!--
+		─┼─┼─╔╦╗┌─┐┌─┐┬ ┬┬┌┐┌┌─┐╔╗╔┌─┐  ┬
+		─┼─┼─║║║├─┤│  ├─┤││││├┤ ║║║│ │15│
+			 ╩ ╩┴ ┴└─┘┴ ┴┴┘└┘└─┘╝╚╝└─┘  o
+	-->
